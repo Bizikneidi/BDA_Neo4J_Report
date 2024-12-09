@@ -22,27 +22,31 @@
 % \renewcommand{\chapter}[1]{} % Disable \chapter command
 \graphicspath{{images/}}     % Location of images and graphics
 \bibliography{references}    % Biblatex bibliography file (references.bib)
-\ExecuteBibliographyOptions{backref=false} % No back references in bibliography
+\ExecuteBibliographyOptions{backref=true} % No back references in bibliography
 
 %%%-----------------------------------------------------------------------------
 \begin{document}
 %%%-----------------------------------------------------------------------------
 
 \author{Tobias Kneidinger, Rafael Hochedlinger}                      % Your name
-\title{BDA Report: Neo4J} % The title of the report
+\title{
+	\includegraphics[width=0.3\textwidth]{images/logo-unical.png} \\[1em]
+	BDA Report: Neo4j
+} % The title of the report
 \date{\today}
 
 %%%-----------------------------------------------------------------------------
 \maketitle
 %%%-----------------------------------------------------------------------------
 
-% \begin{abstract}\noindent
-% This report deals with our experiences with Neo4J and the findings we made about the architecture, features and use cases of the graph database. We also go into detail about the Cypher query language and the Graph Data Science (GDS) package.
-% \end{abstract}
+\tableofcontents
+
+\newpage
 
 %%%-----------------------------------------------------------------------------
 
 \section*{Introduction to Graph Databases}
+\addcontentsline{toc}{section}{Introduction to Graph Databases}
 
 Graph Database Management Systems (GDBMS) are a type of NoSQL database which - instead of traditional tables with rows and columns - uses graph structures with nodes, edges, and properties to represent and store data, as seen in \autoref{fig:graph}. This is especially useful for data that is highly interconnected, such as:
 
@@ -86,12 +90,31 @@ For data science and machine learning applications, Neo4J also provides the Grap
 %%%-----------------------------------------------------------------------------
 
 \section*{Core Concepts in Neo4j}
+\addcontentsline{toc}{section}{Core Concepts in Neo4j}
 
-Rafi
+Neo4j offers a flexible and powerful data model in which the semantic structure of the information is mapped directly in the graph \parencite{robinson2015graph}. The query language of Neo4J Cypher, with which data can be intuitively described as a pattern of nodes and relationships. Cypher queries are more like the visual representation of a graph than the traditional table logic of relational systems, which allows complex connections and paths to be found efficiently.
+
+An essential core aspect of Neo4j is \emph{pattern matching}. Instead of linking several tables via joins, queries in Cypher are described with nodes in round brackets () and relationships in square brackets [], often with arrows to show the direction. This enables a natural form of navigation in the graph. 
+
+The query \autoref{lst:query-employees} finds all persons who are linked to a specific company via a \emph{WORKS\_FOR} relationship. \emph{MATCH} defines the pattern, \emph{WHERE} restricts the results, and \emph{RETURN} returns the desired data. This makes it easy to query even complex graph structures.
+
+\begin{figure}[h]
+	\begin{GenericCode}[numbers=none]
+	MATCH (p:Person)-[r:WORKS_FOR]->(c:Company)
+	WHERE c.name = "Example Company Ltd."
+	RETURN p.name, c.name
+	\end{GenericCode}
+	\caption{Query to find people working for Example Company Ltd.}
+	\label{lst:query-employees}
+\end{figure}
+
+Neo4j also provides indices and constraints to speed up queries and ensure data integrity. For example, this guarantees unique identifiers and prevents empty values. The flexible modeling makes it possible to introduce new relationships, labels or properties at any time without having to adapt an existing schema. These concepts - from cypher and indices to constraints and flexible schema - are the basis for data analyses in Neo4j.
+
 
 %%%-----------------------------------------------------------------------------
 
 \section*{Graph Algorithms with GDS}
+\addcontentsline{toc}{section}{Graph Algorithms with GDS}
 
 To efficiently analyze and process graph data for data science and machine learning applications, the Graph Data Science (GDS) library can be used. The algorithms in this library are optimized for graph data and can be used to perform various tasks, as described by \cite{neo4j-gds}:
 
@@ -133,12 +156,16 @@ Instead of \lstinline{stream} the algorithm can also be executed with \lstinline
 %%%-----------------------------------------------------------------------------
 
 \section*{Performance and Scalability}
+\addcontentsline{toc}{section}{Performance and Scalability}
 
-Rafi
+Neo4j uses various techniques to ensure both performance and scalability \parencite{neo4j-operations-manual}.  By using indexes, constraints and intelligent cache strategies, Neo4j can process queries efficiently. In addition, the use of graph algorithms directly in the database makes it possible to perform complex calculations faster without having to export data. The asynchronous processing of queries as well as optimized storage and traversal strategies ensure high performance with growing data volumes.
+
+For the operation of distributed systems, Neo4j supports cluster configurations in which multiple instances of the database work together. This increases both reliability and throughput performance. The causal consistency used here ensures that write and read operations can be traced in a logical sequence, which guarantees consistent data processing, especially in distributed environments.
 
 %%%-----------------------------------------------------------------------------
 
 \section*{Use Cases and Applications}
+\addcontentsline{toc}{section}{Use Cases and Applications}
 
 As specified in the introduction, graph databases are especially useful for data that is highly interconnected. This makes them very suitable for a wide range of applications, as described by \cite{neo4j}:
 
@@ -156,18 +183,13 @@ The flexibility and scalability of graph databases make them very versatile and 
 
 However, not all use cases are suitable for graph databases. If the data is changing frequently and the relationships don't have to be queried often, another technology - like a relational database - might be the better choice. Also, if the data is not highly interconnected and the queries are simple, a key-value store or document database might be more efficient. 
 
-%%%-----------------------------------------------------------------------------
-
-\section*{Summary and comments}
-
-Rafi
-
 
 %%%-----------------------------------------------------------------------------
   
-\chapter{References}
-
+\chapter*{References}
+\addcontentsline{toc}{section}{References}
 \printbibliography[heading=noheader]
+
 
 %%%-----------------------------------------------------------------------------
 \end{document}
