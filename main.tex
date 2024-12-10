@@ -70,33 +70,38 @@ Graph Database Management Systems (GDBMS) are a type of NoSQL database which - i
 
 Graph databases are optimized for traversing and querying graph structures, which makes them very efficient for certain types of queries. As they are NoSQL databases, they are also schema-less and can store data in a flexible way. This makes them also very suitable for machine learning and data science applications, as the data can be stored in a way that is directly usable for the algorithms.
 
-\subsection*{Neo4J}
+\subsection*{Neo4j}
 
-Neo4J is a popular GDBMS that is used by many companies and organizations. It is developed by Neo Technology and is written in Java, the first version was released in 2007. Neo4J is an open-source database, but there is also a commercial version available with additional features and support. \parencite{neo4j}
+Neo4j is a popular GDBMS that is used by many companies and organizations. It is developed by Neo Technology and is written in Java, the first version was released in 2007. Neo4j is an open-source database, but there is also a commercial version available with additional features and support. \parencite{neo4j}
 
+\pagebreak
+\noindent
 It uses the property graph model, which consists of the following elements, as described by \cite{lal2015neo4j}:
 
 \begin{itemize}
 	\item \textbf{Nodes}: Entities that represent objects or entities in the graph and can have multiple properties and labels
 	\item \textbf{Relationships}: Connect nodes and represent the connections between them, can have a direction and a type and can also have properties
 	\item \textbf{Properties}: Key-value pairs that can be attached to nodes and relationships
-	\item \textbf{Labels}: Represents the type of a node, can be used to group nodes together
+	\item \textbf{Labels}: Represents the type of node, can be used to group nodes together
 \end{itemize}
+\bigskip
+\noindent
+The main query language for Neo4j is Cypher, which is a declarative query language that is similar to SQL. These queries can be used to create, read, update, and delete data in the database. The language is more thoroughly described in the next section.
 
-The main query language for Neo4J is Cypher, which is a declarative query language that is similar to SQL. These queries can be used to create, read, update, and delete data in the database. The language is more thorouhgly described in the next section.
-
-For data science and machine learning applications, Neo4J also provides the Graph Data Science (GDS) library, which contains a collection of graph algorithms that can be used to analyze and process graph data. This library is also described in more detail in a later section.
+\bigskip
+\noindent
+For data science and machine learning applications, Neo4j also provides the Graph Data Science (GDS) library, which contains a collection of graph algorithms that can be used to analyze and process graph data. This library is also described in more detail in a later section.
 
 %%%-----------------------------------------------------------------------------
 
 \section*{Core Concepts in Neo4j}
 \addcontentsline{toc}{section}{Core Concepts in Neo4j}
 
-Neo4j offers a flexible and powerful data model in which the semantic structure of the information is mapped directly in the graph \parencite{robinson2015graph}. The query language of Neo4J Cypher, with which data can be intuitively described as a pattern of nodes and relationships. Cypher queries are more like the visual representation of a graph than the traditional table logic of relational systems, which allows complex connections and paths to be found efficiently.
+Neo4j offers a flexible and powerful data model in which the semantic structure of the information is mapped directly in the graph \parencite{robinson2015graph}. The query language of Neo4J is Cypher, with which data can be intuitively described as a pattern of nodes and relationships. Cypher queries are more like the visual representation of a graph than the traditional table logic of relational systems, which allows complex connections and paths to be found efficiently.
 
 An essential core aspect of Neo4j is \emph{pattern matching}. Instead of linking several tables via joins, queries in Cypher are described with nodes in round brackets () and relationships in square brackets [], often with arrows to show the direction. This enables a natural form of navigation in the graph. 
 
-The query \autoref{lst:query-employees} finds all persons who are linked to a specific company via a \emph{WORKS\_FOR} relationship. \emph{MATCH} defines the pattern, \emph{WHERE} restricts the results, and \emph{RETURN} returns the desired data. This makes it easy to query even complex graph structures.
+The query \autoref{lst:query-employees} finds all persons who are linked to a specific company via a \lstinline{WORKS_FOR} relationship. \lstinline{MATCH} defines the pattern, \lstinline{WHERE} restricts the results, and \lstinline{RETURN} returns the desired data. This makes it easy to query even complex graph structures.
 
 \begin{figure}[h]
 	\begin{GenericCode}[numbers=none]
@@ -108,7 +113,7 @@ The query \autoref{lst:query-employees} finds all persons who are linked to a sp
 	\label{lst:query-employees}
 \end{figure}
 
-Neo4j also provides indices and constraints to speed up queries and ensure data integrity. For example, this guarantees unique identifiers and prevents empty values. The flexible modeling makes it possible to introduce new relationships, labels or properties at any time without having to adapt an existing schema. These concepts - from cypher and indices to constraints and flexible schema - are the basis for data analyses in Neo4j.
+Neo4j also provides indices and constraints to speed up queries and ensure data integrity. For example, this guarantees unique identifiers and prevents empty values. The flexible modeling makes it possible to introduce new relationships, labels or properties at any time without having to adapt an existing schema. These concepts - from cypher and indices to constraints and flexible schema - are the basis for data analyzes in Neo4j.
 
 
 %%%-----------------------------------------------------------------------------
@@ -127,7 +132,7 @@ To efficiently analyze and process graph data for data science and machine learn
 	\item etc\dots
 \end{itemize}
 
-To be able to use conventional neo4j graphs with the GDS library, the graph must be projected into a named graph. This projected graph is a subgraph of the original graph and can be created with the query shown in \autoref{lst:projected-graph}, where 'socialgraph' is the name of the newly projected graph, 'Person' is the node label to project, and 'FRIENDS' is the relationship type to project.
+To be able to use conventional Neo4j graphs with the GDS library, the graph must be projected into a named graph. This projected graph is a subgraph of the original graph and can be created with the query shown in \autoref{lst:projected-graph}, where 'socialgraph' is the name of the newly projected graph, 'Person' is the node label to project, and 'FRIENDS' is the relationship type to project.
 
 \begin{figure}[h]
 	\begin{GenericCode}[numbers=none]
@@ -138,7 +143,7 @@ To be able to use conventional neo4j graphs with the GDS library, the graph must
 \end{figure}
 
 After the graph has been projected, the GDS algorithms can be used to analyze the graph. In the example shown in \autoref{lst:gds-algorithm}, 
-the Louvain algorithm is used to detect communities in the graph. The algorithm is called with the 'socialgraph' as the graph name, the 'Person' node label, and the 'FRIENDS' relationship type. The algorithm yields the nodeId and communityId, which can be used to return the node name and community id. The results are then ordered by the community id.
+the Louvain algorithm is used to detect communities in the graph. The algorithm is called with the 'socialgraph' as the graph name, the 'Person' node label, and the 'FRIENDS' relationship type. The algorithm yields \lstinline{nodeId} and \lstinline{communityId}, which represent the node name and community ID. The results are then ordered by \lstinline{communityId}.
 
 \begin{figure}[h]
 	\begin{GenericCode}[numbers=none]
@@ -151,7 +156,7 @@ the Louvain algorithm is used to detect communities in the graph. The algorithm 
 	\label{lst:gds-algorithm}
 \end{figure}
 
-Instead of \lstinline{stream} the algorithm can also be executed with \lstinline{write} to write the results back to the graph. The results can then be used for further analysis or visualization and don't have to be recalcualted every time.
+Instead of \lstinline{stream} the algorithm can also be executed with \lstinline{write} to write the results back to the graph. The results can then be used for further analysis or visualization and don't have to be recalculated every time.
 
 %%%-----------------------------------------------------------------------------
 
